@@ -2,9 +2,12 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+
 import { ConfigProvider, Flex, Layout, List, Image, Typography, Descriptions, Timeline } from 'antd'
 const { Header, Footer, Sider, Content } = Layout
 const { Title } = Typography
+
+
 
 let albumInfo = {
   jacketURL: "https://i.discogs.com/HuJE8Ak8vykYnA28p8RcJeYroEnoPuyPfd4p0g7ARDA/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTczOTc2/ODQtMTQ0MDYyMTg0/NC04MTg4LmpwZWc.jpeg",
