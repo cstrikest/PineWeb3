@@ -6,30 +6,6 @@ import { ConfigProvider, Flex, Layout, List, Image, Typography, Descriptions, Ti
 const { Header, Footer, Sider, Content } = Layout
 const { Title } = Typography
 
-const headerStyle = {
-};
-const contentStyle = {
-  textAlign: 'center',
-  minHeight: 120,
-  lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#0958d9',
-};
-const siderStyle = {
-  textAlign: 'center',
-  lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#FFFFFF',
-  border: "3px solid black"
-};
-const layoutStyle = {
-  borderRadius: 8,
-  overflow: 'hidden',
-  width: 'calc(100% - 2px)',
-  maxWidth: 'calc(100% - 2px)',
-  height: 'calc(100% - 5px)',
-};
-
 let albumInfo = {
   jacketURL: "https://i.discogs.com/HuJE8Ak8vykYnA28p8RcJeYroEnoPuyPfd4p0g7ARDA/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTczOTc2/ODQtMTQ0MDYyMTg0/NC04MTg4LmpwZWc.jpeg",
   titletext: "Kalafina - WTF?xxタイトルのてすと感じ漢字xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -53,8 +29,20 @@ function App() {
   const [count, setCount] = useState(0)
   return (
     <>
-      <Layout style={layoutStyle}>
-        <Sider width="25%" style={siderStyle}>
+      <Layout style={{
+        borderRadius: 4,
+        overflow: 'hidden',
+        width: 'calc(100% - 2px)',
+        maxWidth: 'calc(100% - 2px)',
+        height: 'calc(100% - 5px)'
+      }}>
+        <Sider width="25%" style={{
+          textAlign: 'center',
+          lineHeight: '120px',
+          color: 'white',
+          backgroundColor: 'white',
+          border: '3px solid black'
+        }}>
           <Flex vertical align='start' justify='start'>
             <UJacket jacketURL={albumInfo.jacketURL} fallBackURL={"public/error-image.png"} />
             <UPlayList playList={albumInfo.playList} />
@@ -62,8 +50,9 @@ function App() {
         </Sider>
         <Layout>
           <Header style={{
-            paddingTop: 0,
+            padding: 5,
             textAlign: 'center',
+            alignItems: 'start',
             height: 40,
             lineHeight: '30px',
             backgroundColor: '#FFFFFF',
@@ -71,7 +60,14 @@ function App() {
           }}>
             <UTitle titleText={albumInfo.titletext} />
           </Header>
-          <Content style={contentStyle}>
+          <Content style={{
+            textAlign: 'center',
+            minHeight: 120,
+            lineHeight: '120px',
+            color: 'white',
+            backgroundColor: 'white',
+            border: "3px solid black"
+          }}>
             <UAlbumData albumData={albumData} />
           </Content>
         </Layout>
@@ -107,13 +103,16 @@ let ellipsisConfig = {
 
 function UTitle({ titleText }) {
   return (
-    <h2 style={{
+    <span style={{
       color: "Black",
+      display: "inline-block",
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
-      fontFamily: "font-title"
-    }}>{titleText}</h2>
+      fontFamily: "font-title",
+      fontSize: "20px",
+      width: "calc(100%)"
+    }}>{titleText}</span>
   )
 }
 
