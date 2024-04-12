@@ -1,35 +1,40 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import Axios from 'axios'
 import './App.css'
 
-import { ConfigProvider, Flex, Layout, List, Image, Typography, Descriptions, Timeline } from 'antd'
+import { message, ConfigProvider, Flex, Layout, List, Image, Typography, Descriptions, Timeline, Input, Steps } from 'antd'
 const { Header, Footer, Sider, Content } = Layout
-const { Title } = Typography
+const { Search } = Input
 
-
-
-let albumInfo = {
-  jacketURL: "https://i.discogs.com/HuJE8Ak8vykYnA28p8RcJeYroEnoPuyPfd4p0g7ARDA/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTczOTc2/ODQtMTQ0MDYyMTg0/NC04MTg4LmpwZWc.jpeg",
-  titletext: "Kalafina - WTF?xxタイトルのてすと感じ漢字xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  labelText: "SME Records - SEJL-28",
-  formatText: "Vinyl, 12 33 RPM",
-  countryText: "Japan",
-  releasedText: "Aug 12, 2015",
-  genreText: "Pop, stage",
-  styext: "J-pop",
-  prize: {
-    high: 2000,
-    mid: 1000,
-    low: 500
-  },
-  sellsText: "6 copies from ¥11,377",
-  haveWant: [10, 20],
-  playList: [1, 2, 3, 4, 5, 4, 5, 6, 4, 2, 2, 3, 6, 6, 3, 63, 2]
-}
+playList: [1, 2, 3, 4, 5, 4, 5, 6, 4, 2, 2, 3, 6, 6, 3, 63, 2]
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [info, setInfo] = useState([
+    "专辑标题",
+    [
+      { key: '1', label: '厂牌', children: '唱片发行厂牌', span: 3 },
+      { key: '2', label: '格式', children: '媒体形式', span: 3 },
+      { key: '3', label: '发行地', children: '国家或地区', span: 2 },
+      { key: '4', label: '发售时间', children: '年 月 （日）' },
+      { key: '5', label: '分类', children: '大分类', span: 2 },
+      { key: '6', label: '持有数据', children: '4402人拥有，2452人想要', span: 1 },
+      { key: '7', label: '风格', children: '小分类', span: 2 },
+      { key: '8', label: '当前售卖', children: '1 copies for 10000', span: 1 },
+      {
+        key: '9', label: '历史价格区间', children:
+          <Steps progressDot current={3} items={[
+            { title: '最低价格', description: '2000￥' },
+            { title: '平均价格', description: '3330￥' },
+            { title: '最高价格', description: '5000￥' },
+          ]}>
+          </Steps>, span: 3
+      }
+    ],
+    "URL",
+    [1, 2, 3, 4, 5]]
+  )
+
   return (
     <>
       <Layout style={{
@@ -47,8 +52,8 @@ function App() {
           border: '3px solid black'
         }}>
           <Flex vertical align='start' justify='start'>
-            <UJacket jacketURL={albumInfo.jacketURL} fallBackURL={"public/error-image.png"} />
-            <UPlayList playList={albumInfo.playList} />
+            <UJacket jacketURL={info[2]} fallBackURL={"error-image.png"} />
+            <UPlayList playList={info[3]} />
           </Flex>
         </Sider>
         <Layout>
@@ -61,7 +66,7 @@ function App() {
             backgroundColor: '#FFFFFF',
             border: "3px solid black"
           }}>
-            <UTitle titleText={albumInfo.titletext} />
+            <UTitle info={info} />
           </Header>
           <Content style={{
             textAlign: 'center',
@@ -71,15 +76,18 @@ function App() {
             backgroundColor: 'white',
             border: "3px solid black"
           }}>
-            <UAlbumData albumData={albumData} />
+            <Flex vertical>
+              <UAlbumData info={info} />
+              <USearchID info={info} setInfo={setInfo} />
+            </Flex>
           </Content>
         </Layout>
-      </Layout>
+      </Layout >
     </>
   )
 }
 
-function UJacket({ jacketURL, fallBackURL, onErrorFunc }) {
+function UJacket({ jacketURL, fallBackURL }) {
   return (
     <Image
       src={jacketURL}
@@ -93,7 +101,8 @@ function UPlayList({ playList }) {
       bordered dataSource={playList}
       style={{
         overflow: "auto",
-        height: 400
+        height: 400,
+        textAlign: 'left'
       }}
       renderItem={(item) => <List.Item>{item}</List.Item>} />
   )
@@ -104,7 +113,7 @@ let ellipsisConfig = {
   expandable: false,
 }
 
-function UTitle({ titleText }) {
+function UTitle({ info }) {
   return (
     <span style={{
       color: "Black",
@@ -115,27 +124,61 @@ function UTitle({ titleText }) {
       fontFamily: "font-title",
       fontSize: "20px",
       width: "calc(100%)"
-    }}>{titleText}</span>
+    }}>{info[0]}</span>
   )
 }
 
-let albumData = [
-  { key: "1", label: "厂牌", children: "SME" },
-  { key: "2", label: "媒体形式", children: "Vinyl" },
-  { key: "3", label: "发行地", children: "Japan" },
-  { key: "4", label: "发售时间", children: "" },
-  { key: "5", label: "类型", children: "" },
-  { key: "6", label: "风格", children: "" },
-  { key: "7", label: "价格", children: <Timeline pending="now prize" reverse items={albumInfo.prize} /> },
-  { key: "8", label: " ", children: "" },
-  { key: "9", label: "持有&想要数", children: "" },
-]
-
-function UAlbumData({ albumData }) {
+function UAlbumData({ info }) {
   return (
     <ConfigProvider>
-      <Descriptions bordered items={albumData} size='small' />
+      <Descriptions bordered items={info[1]} size='small' />
     </ConfigProvider>
+  )
+}
+
+function USearchID({ info, setInfo }) {
+  async function onSearch(value, _e, info) {
+    let form = new FormData()
+
+    form.append('id', value.replace(/[^0-9]/ig, ""))
+    message.loading('加载中，请不要多次搜索。')
+    await Axios.post('/album', form)
+      .then((response) => {
+        let temp = []
+        for (let i = 0; i < response.data['pos'].length; i++) {
+          temp.push(response.data['pos'][i] + "  :  " + response.data['title'][i])
+        }
+        setInfo([
+          response.data['name'],
+          [
+            { key: '1', label: '厂牌', children: response.data['label'], span: 3 },
+            { key: '2', label: '格式', children: response.data['format'], span: 3 },
+            { key: '3', label: '发行地', children: response.data['country'], span: 2 },
+            { key: '4', label: '发售时间', children: response.data['released'] },
+            { key: '5', label: '分类', children: response.data['genre'], span: 2 },
+            {
+              key: '6', label: '持有数据', children: response.data['have'] + '人拥有，'
+                + response.data['want'] + '人想要', span: 1
+            },
+            { key: '7', label: '风格', children: response.data['style'], span: 2 },
+            { key: '8', label: '当前售卖', children: response.data['sells'], span: 1 },
+            {
+              key: '9', label: '历史价格区间', children:
+                <Steps progressDot current={3} items={[
+                  { title: '最低价格', description: response.data['low'] },
+                  { title: '平均价格', description: response.data['median'] },
+                  { title: '最高价格', description: response.data['high'] },
+                ]}>
+                </Steps>, span: 3
+            }
+          ],
+          response.data['jacket_url'],
+          temp
+        ])
+      })
+  }
+  return (
+    <Search placeholder="paste album id copied form discogs" onSearch={onSearch} enterButton />
   )
 }
 export default App
