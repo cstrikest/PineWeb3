@@ -40,3 +40,5 @@
 .read-the-docs {
   color: #888;
 }
+
+.ant-steps-item-process .ant-steps-item-icon { background: red; }

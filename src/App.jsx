@@ -1,13 +1,10 @@
 import { useState } from 'react'
-
 import Axios from 'axios'
 import './App.css'
-
 import { message, ConfigProvider, Flex, Layout, List, Image, Typography, Descriptions, Timeline, Input, Steps } from 'antd'
+import { blue } from '@ant-design/colors'
 const { Header, Footer, Sider, Content } = Layout
 const { Search } = Input
-
-playList: [1, 2, 3, 4, 5, 4, 5, 6, 4, 2, 2, 3, 6, 6, 3, 63, 2]
 
 function App() {
   const [info, setInfo] = useState([
@@ -18,17 +15,17 @@ function App() {
       { key: '3', label: '发行地', children: '国家或地区', span: 2 },
       { key: '4', label: '发售时间', children: '年 月 （日）' },
       { key: '5', label: '分类', children: '大分类', span: 2 },
-      { key: '6', label: '持有数据', children: '4402人拥有，2452人想要', span: 1 },
+      { key: '6', label: '持有数据', children: '0人拥有，0人想要', span: 1 },
       { key: '7', label: '风格', children: '小分类', span: 2 },
       { key: '8', label: '当前售卖', children: '1 copies for 10000', span: 1 },
       {
         key: '9', label: '历史价格区间', children:
-          <Steps progressDot current={3} items={[
-            { title: '最低价格', description: '2000￥' },
-            { title: '平均价格', description: '3330￥' },
-            { title: '最高价格', description: '5000￥' },
+          <Steps progressDot current={3} size='small' items={[
+            { title: '最低价格' },
+            { title: '平均价格' },
+            { title: '最高价格' },
           ]}>
-          </Steps>, span: 3
+          </Steps >, span: 3
       }
     ],
     "URL",
@@ -37,52 +34,70 @@ function App() {
 
   return (
     <>
-      <Layout style={{
-        borderRadius: 4,
-        overflow: 'hidden',
-        width: 'calc(100% - 2px)',
-        maxWidth: 'calc(100% - 2px)',
-        height: 'calc(100% - 5px)'
-      }}>
-        <Sider width="25%" style={{
-          textAlign: 'center',
-          lineHeight: '120px',
-          color: 'white',
-          backgroundColor: 'white',
-          border: '3px solid black'
+      <ConfigProvider
+        theme={{
+          components: {
+            Descriptions: {
+              fontSize: '15px',
+            },
+            List: {
+              colorBorder: blue[6]
+            },
+            Steps: {
+            },
+            Input:
+            {
+              color: blue[6],
+              colorPrimary: blue.primary,
+              colorBorder: blue[6]
+            }
+          },
+        }}
+      >
+        <Layout style={{
+          borderRadius: 4,
+          overflow: 'hidden',
+          width: 'calc(100% - 2px)',
+          maxWidth: 'calc(100% - 2px)',
+          height: 'calc(100% - 5px)',
+          border: '2px solid ' + blue.primary
         }}>
-          <Flex vertical align='start' justify='start'>
-            <UJacket jacketURL={info[2]} fallBackURL={"error-image.png"} />
-            <UPlayList playList={info[3]} />
-          </Flex>
-        </Sider>
-        <Layout>
-          <Header style={{
-            padding: 5,
-            textAlign: 'center',
-            alignItems: 'start',
-            height: 40,
-            lineHeight: '30px',
-            backgroundColor: '#FFFFFF',
-            border: "3px solid black"
+          <Sider width="25%" style={{
+            backgroundColor: blue[3],
           }}>
-            <UTitle info={info} />
-          </Header>
-          <Content style={{
-            textAlign: 'center',
-            minHeight: 120,
-            lineHeight: '120px',
-            color: 'white',
-            backgroundColor: 'white',
-            border: "3px solid black"
-          }}>
-            <Flex vertical>
-              <UAlbumData info={info} />
-              <USearchID info={info} setInfo={setInfo} />
+            <Flex vertical align='center' justify='start'>
+              <UJacket jacketURL={info[2]} fallBackURL={"error-image.png"} />
+              <UPlayList playList={info[3]} />
             </Flex>
-          </Content>
-        </Layout>
-      </Layout >
+          </Sider>
+          <Layout>
+            <Header style={{
+              padding: 5,
+              textAlign: 'center',
+              alignItems: 'start',
+              height: 50,
+              lineHeight: '40px',
+              backgroundColor: blue[6],
+            }}>
+              <UTitle info={info} />
+            </Header>
+            <Content style={{
+              textAlign: 'center',
+              minHeight: 120,
+              lineHeight: '120px',
+              color: 'white',
+              backgroundColor: blue[0],
+            }}>
+              <Flex vertical>
+                <UAlbumData info={info} />
+                <div style={{ margin: '20px' }}>
+                  <USearchID info={info} setInfo={setInfo} />
+                </div>
+              </Flex>
+            </Content>
+          </Layout>
+        </Layout >
+      </ConfigProvider>
     </>
   )
 }
@@ -92,7 +107,10 @@ function UJacket({ jacketURL, fallBackURL }) {
     <Image
       src={jacketURL}
       preview={false}
-      fallback={fallBackURL} />)
+      fallback={fallBackURL}
+      style={{
+        border: '5px solid ' + blue[6]
+      }} />)
 }
 
 function UPlayList({ playList }) {
@@ -100,9 +118,11 @@ function UPlayList({ playList }) {
     <List size="small"
       bordered dataSource={playList}
       style={{
+        background: blue[0],
         overflow: "auto",
-        height: 400,
-        textAlign: 'left'
+        height: 700,
+        textAlign: 'left',
+        width: '100%'
       }}
       renderItem={(item) => <List.Item>{item}</List.Item>} />
   )
@@ -116,13 +136,13 @@ let ellipsisConfig = {
 function UTitle({ info }) {
   return (
     <span style={{
-      color: "Black",
+      color: "white",
       display: "inline-block",
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
       fontFamily: "font-title",
-      fontSize: "20px",
+      fontSize: "30px",
       width: "calc(100%)"
     }}>{info[0]}</span>
   )
@@ -164,10 +184,10 @@ function USearchID({ info, setInfo }) {
             { key: '8', label: '当前售卖', children: response.data['sells'], span: 1 },
             {
               key: '9', label: '历史价格区间', children:
-                <Steps progressDot current={3} items={[
-                  { title: '最低价格', description: response.data['low'] },
-                  { title: '平均价格', description: response.data['median'] },
-                  { title: '最高价格', description: response.data['high'] },
+                <Steps progressDot current={3} size='small' items={[
+                  { title: response.data['low'] },
+                  { title: response.data['median'] },
+                  { title: response.data['high'] },
                 ]}>
                 </Steps>, span: 3
             }
