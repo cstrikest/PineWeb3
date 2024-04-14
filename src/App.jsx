@@ -56,9 +56,10 @@ function App() {
       >
         <Layout style={{
           borderRadius: 4,
-          overflow: 'auto',
+          // overflow: 'auto',
           width: '100%',
           height: '93vh',
+          maxHeight: '93vh',
           border: '2px solid ' + blue.primary,
           display: 'flex'
         }}>
@@ -66,7 +67,7 @@ function App() {
             backgroundColor: blue[3],
             minHeight: '100%',
           }}>
-            <Flex vertical align='center' justify='start'>
+            <Flex vertical align='center' justify='start' style={{ maxHeight: '100%' }}>
               <UJacket jacketURL={info[2]} fallBackURL={"error-image.png"} />
               <UPlayList playList={info[3]} />
             </Flex>
@@ -120,8 +121,9 @@ function UPlayList({ playList }) {
       bordered dataSource={playList}
       style={{
         background: blue[0],
-        overflow: "scroll",
-        height: '100%',
+        overflow: "auto",
+        height: 'auto',
+        //maxHeight: '100%',
         textAlign: 'left',
         width: '100%'
       }}
