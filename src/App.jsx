@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import Axios from 'axios'
 import './App.css'
-import { message, ConfigProvider, Flex, Layout, List, Image, Typography, Descriptions, Timeline, Input, Steps } from 'antd'
+import { message, ConfigProvider, Flex, Layout, List, Image, Descriptions, Input, Steps } from 'antd'
 import { blue } from '@ant-design/colors'
-const { Header, Footer, Sider, Content } = Layout
+const { Header, Sider, Content } = Layout
 const { Search } = Input
 
 function App() {
@@ -56,14 +56,15 @@ function App() {
       >
         <Layout style={{
           borderRadius: 4,
-          overflow: 'hidden',
-          width: 'calc(100% - 2px)',
-          maxWidth: 'calc(100% - 2px)',
-          height: 'calc(100% - 5px)',
-          border: '2px solid ' + blue.primary
+          overflow: 'auto',
+          width: '100%',
+          height: '93vh',
+          border: '2px solid ' + blue.primary,
+          display: 'flex'
         }}>
           <Sider width="25%" style={{
             backgroundColor: blue[3],
+            minHeight: '100%',
           }}>
             <Flex vertical align='center' justify='start'>
               <UJacket jacketURL={info[2]} fallBackURL={"error-image.png"} />
@@ -119,18 +120,13 @@ function UPlayList({ playList }) {
       bordered dataSource={playList}
       style={{
         background: blue[0],
-        overflow: "auto",
-        height: 700,
+        overflow: "scroll",
+        height: '100%',
         textAlign: 'left',
         width: '100%'
       }}
       renderItem={(item) => <List.Item>{item}</List.Item>} />
   )
-}
-
-let ellipsisConfig = {
-  rows: 1,
-  expandable: false,
 }
 
 function UTitle({ info }) {
