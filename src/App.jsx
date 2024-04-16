@@ -50,7 +50,7 @@ function App() {
       >
         <Layout style={{
           borderRadius: 4,
-          overflow: 'hidden',
+          // overflow: 'hidden',
           width: '100%',
           height: '92vh',
           maxHeight: '93vh',
