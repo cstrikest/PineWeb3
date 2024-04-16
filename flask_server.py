@@ -67,7 +67,7 @@ def getById(id):
             info['G+'] = '0'
             info['G'] = '0'
             info['F'] = '0'
-            info['p'] = '0'
+            info['P'] = '0'
         
         try:
             for t in d['tracklist']:
