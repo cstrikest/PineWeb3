@@ -19,13 +19,7 @@ function App() {
       { key: '7', label: '风格', children: '小分类', span: 2 },
       { key: '8', label: '当前售卖', children: '1 copies for 10000', span: 1 },
       {
-        key: '9', label: '历史价格区间', children:
-          <Steps progressDot current={3} size='small' items={[
-            { title: '最低价格' },
-            { title: '平均价格' },
-            { title: '最高价格' },
-          ]}>
-          </Steps >, span: 3
+        key: '9', label: '价格区间', children: <span></span>
       }
     ],
     "URL",
@@ -181,11 +175,16 @@ function USearchID({ info, setInfo }) {
             { key: '7', label: '风格', children: response.data['style'], span: 2 },
             { key: '8', label: '当前售卖', children: response.data['sells'], span: 1 },
             {
-              key: '9', label: '历史价格区间', children:
-                <Steps progressDot current={3} size='small' items={[
-                  { title: response.data['low'] },
-                  { title: response.data['median'] },
-                  { title: response.data['high'] },
+              key: '9', label: '价格区间', children:
+                <Steps progressDot current={7} size='small' items={[
+                  { title: response.data['P'] + '￥', description: 'Poor' },
+                  { title: response.data['F'] + '￥', description: 'Fair' },
+                  { title: response.data['G'] + '￥', description: 'Good' },
+                  { title: response.data['G+'] + '￥', description: 'Good+' },
+                  { title: response.data['VG'] + '￥', description: 'Very Good' },
+                  { title: response.data['VG+'] + '￥', description: 'Very Good+' },
+                  { title: response.data['M-'] + '￥', description: 'Mint-' },
+                  { title: response.data['M'] + '￥', description: 'Mint' },
                 ]}>
                 </Steps>, span: 3
             }
