@@ -104,7 +104,7 @@ function UJacket({ jacketURL, fallBackURL }) {
     <Image
       src={jacketURL}
       preview={false}
-      width='80%'
+      width='87%'
       fallback={fallBackURL}
       style={{
         border: '5px solid ' + blue[6],
