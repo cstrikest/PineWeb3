@@ -50,14 +50,24 @@ def getById(id):
         rr = requests.get('https://api.discogs.com/marketplace/price_suggestions/{0}?token=MkMLufsSiHWSKcUIcPzXkdgKQvCNajeIQSCDGPkl&curr_abbr=JPY'.format(id))
         dd = json.loads(rr.text)
         
-        info['M'] = str(round(int(dd['Mint (M)']['value'])))
-        info['M-'] = str(round(int(dd['Near Mint (NM or M-)']['value'])))
-        info['VG+'] = str(round(int(dd['Very Good Plus (VG+)']['value'])))
-        info['VG'] = str(round(int(dd['Very Good (VG)']['value'])))
-        info['G+'] = str(round(int(dd['Good Plus (G+)']['value'])))
-        info['G'] = str(round(int(dd['Good (G)']['value'])))
-        info['F'] = str(round(int(dd['Fair (F)']['value'])))
-        info['P'] = str(round(int(dd['Poor (P)']['value'])))
+        try:
+            info['M'] = str(round(int(dd['Mint (M)']['value'])))
+            info['M-'] = str(round(int(dd['Near Mint (NM or M-)']['value'])))
+            info['VG+'] = str(round(int(dd['Very Good Plus (VG+)']['value'])))
+            info['VG'] = str(round(int(dd['Very Good (VG)']['value'])))
+            info['G+'] = str(round(int(dd['Good Plus (G+)']['value'])))
+            info['G'] = str(round(int(dd['Good (G)']['value'])))
+            info['F'] = str(round(int(dd['Fair (F)']['value'])))
+            info['P'] = str(round(int(dd['Poor (P)']['value'])))
+        except:
+            info['M'] = '0'
+            info['M-'] = '0'
+            info['VG+'] = '0'
+            info['VG'] = '0'
+            info['G+'] = '0'
+            info['G'] = '0'
+            info['F'] = '0'
+            info['p'] = '0'
         
         try:
             for t in d['tracklist']:
