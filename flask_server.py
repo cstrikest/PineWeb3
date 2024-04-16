@@ -11,7 +11,7 @@ def getById(id):
     info['title'] = []
     r = requests.get('https://api.discogs.com/releases/{0}?curr_abbr=JPY&token={1}'.format(id, token))
     if not r.ok:
-        info['name'] = '{0} NOT FOUND.'
+        info['name'] = '{0} NOT FOUND.'.format(id)
     else:
         d = json.loads(r.text)
         info['name'] = d['title'] + ' - ' + d['artists_sort']
