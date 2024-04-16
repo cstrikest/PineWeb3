@@ -15,7 +15,7 @@ def getById(id):
     else:
         d = json.loads(r.text)
         info['name'] = d['title'] + ' - ' + d['artists_sort']
-        info['jacket_url'] = d['thumb']
+        info['jacket_url'] = d['images'][0]['resource_url']
         info['have'] = d['community']['have']
         info['want'] = d['community']['want']
         try:
