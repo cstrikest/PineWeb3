@@ -50,9 +50,9 @@ function App() {
       >
         <Layout style={{
           borderRadius: 4,
-          // overflow: 'auto',
+          overflow: 'hidden',
           width: '100%',
-          height: '93vh',
+          height: '92vh',
           maxHeight: '93vh',
           border: '2px solid ' + blue.primary,
           display: 'flex'
@@ -61,7 +61,7 @@ function App() {
             backgroundColor: blue[3],
             minHeight: '100%',
           }}>
-            <Flex vertical align='center' justify='start' style={{ maxHeight: '100%' }}>
+            <Flex vertical align='center' justify='start' style={{ Height: '100%', width: '100%' }}>
               <UJacket jacketURL={info[2]} fallBackURL={"error-image.png"} />
               <UPlayList playList={info[3]} />
             </Flex>
@@ -84,9 +84,10 @@ function App() {
               color: 'white',
               backgroundColor: blue[0],
             }}>
-              <Flex vertical>
+              <Flex vertical style={{ height: '100%' }}>
                 <UAlbumData info={info} />
-                <div style={{ margin: '20px' }}>
+                <div style={{ margin: '3px', padding: '20px', border: '4px solid' + blue[3], height: '100%' }}>
+                  <h1 style={{ color: 'black' }}>ZONE FOR WEBCAM</h1>
                   <USearchID info={info} setInfo={setInfo} />
                 </div>
               </Flex>
@@ -103,9 +104,11 @@ function UJacket({ jacketURL, fallBackURL }) {
     <Image
       src={jacketURL}
       preview={false}
+      width='80%'
       fallback={fallBackURL}
       style={{
-        border: '5px solid ' + blue[6]
+        border: '5px solid ' + blue[6],
+        objectFit: 'cover'
       }} />)
 }
 
