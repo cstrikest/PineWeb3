@@ -27,8 +27,12 @@ def getById(id):
         info['label'] = d['labels'][0]['name'] + ' - ' + d['labels'][0]['catno']
         info['low'] = d['lowest_price']
         info['released'] = d['released_formatted']
-        info['sells'] = '{0}￥起{1}件在售'.format(str(round(int(d['lowest_price']))), d['num_for_sale'])
         
+        try:
+            info['sells'] = '{0}￥起{1}件在售'.format(str(round(int(d['lowest_price']))), d['num_for_sale'])
+        except:
+            info['sells'] = '没有在售'
+            
         rr = requests.get('https://api.discogs.com/marketplace/price_suggestions/{0}?token=MkMLufsSiHWSKcUIcPzXkdgKQvCNajeIQSCDGPkl&curr_abbr=JPY'.format(id))
         dd = json.loads(rr.text)
         
