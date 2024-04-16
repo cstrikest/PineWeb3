@@ -61,7 +61,7 @@ function App() {
             backgroundColor: blue[3],
             minHeight: '100%',
           }}>
-            <Flex vertical align='center' justify='start' style={{ Height: '100%', width: '100%' }}>
+            <Flex vertical align='center' justify='start' style={{ maxHeight: '100%', width: '100%' }}>
               <UJacket jacketURL={info[2]} fallBackURL={"error-image.png"} />
               <UPlayList playList={info[3]} />
             </Flex>
