@@ -18,30 +18,43 @@ def getById(id):
         info['jacket_url'] = d['images'][0]['resource_url']
         info['have'] = d['community']['have']
         info['want'] = d['community']['want']
+        
+        try:
+            info['rating'] = '{0} / 5分，共有{1}人评分'.format(d['community']['rating']['average'], d['community']['rating']['count'])
+        except:
+            info['rating'] = '评分数据不足'
+            
         try:
             info['country'] = d['country']
         except:
             info['country'] = ''
+            
         info['format'] = d['formats'][0]['qty'] + ' x ' + d['formats'][0]['name']
+        
         for s in d['formats'][0]['descriptions']:
             info['format'] += ', ' + s
-        info['genre'] = ' '.join(d['genres'])
+        info['genre'] = ', '.join(d['genres'])
+        
         try:
-            info['style'] = ' '.join(d['styles'])
+            info['style'] = ', '.join(d['styles'])
         except:
             info['style'] = ''
+            
         try:
             info['label'] = d['labels'][0]['name'] + ' - ' + d['labels'][0]['catno']
         except:
             info['label'] = ''
+            
         try:
             info['low'] = d['lowest_price']
         except:
             info['low'] = '0'
+            
         try:
             info['released'] = d['released_formatted']
         except:
             info['released'] = ''
+            
         try:
             info['sells'] = '{0}￥起{1}件在售'.format(str(round(int(d['lowest_price']))), d['num_for_sale'])
         except:

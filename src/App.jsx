@@ -10,16 +10,9 @@ function App() {
   const [info, setInfo] = useState([
     "专辑标题",
     [
-      { key: '1', label: '厂牌', children: '唱片发行厂牌', span: 3 },
-      { key: '2', label: '格式', children: '媒体形式', span: 3 },
-      { key: '3', label: '发行地', children: '国家或地区', span: 2 },
-      { key: '4', label: '发售时间', children: '年 月 （日）' },
-      { key: '5', label: '分类', children: '大分类', span: 2 },
-      { key: '6', label: '持有数据', children: '0人拥有，0人想要', span: 1 },
-      { key: '7', label: '风格', children: '小分类', span: 2 },
-      { key: '8', label: '当前售卖', children: '1 copies for 10000', span: 1 },
+      { key: '1', label: '数据', children: '唱片发行厂牌', span: 3 },
       {
-        key: '9', label: '价格区间', children: <span></span>
+        key: '2', label: '价格区间', children: <span></span>
       }
     ],
     "URL",
@@ -166,19 +159,24 @@ function USearchID({ info, setInfo }) {
         setInfo([
           response.data['name'],
           [
-            { key: '1', label: '厂牌', children: response.data['label'], span: 3 },
-            { key: '2', label: '格式', children: response.data['format'], span: 3 },
-            { key: '3', label: '发行地', children: response.data['country'], span: 2 },
-            { key: '4', label: '发售时间', children: response.data['released'] },
-            { key: '5', label: '分类', children: response.data['genre'], span: 2 },
+            { key: '1', label: '厂牌', children: response.data['label'], span: 1 },
+            { key: '2', label: '发行地', children: response.data['country'], span: 1 },
+            { key: '3', label: '发售时间', children: response.data['released'], span: 1 },
+            { key: '4', label: '格式', children: response.data['format'], span: 1 },
+
+            { key: '5', label: '分类', children: response.data['genre'], span: 1 },
+
+            { key: '6', label: '风格', children: response.data['style'], span: 2 },
+
             {
-              key: '6', label: '持有数据', children: response.data['have'] + '人拥有，'
+              key: '7', label: '持有数据', children: response.data['have'] + '人拥有，'
                 + response.data['want'] + '人想要', span: 1
             },
-            { key: '7', label: '风格', children: response.data['style'], span: 2 },
             { key: '8', label: '当前售卖', children: response.data['sells'], span: 1 },
+            { key: '9', label: '评分', children: response.data['rating'] },
+
             {
-              key: '9', label: '价格区间', children:
+              key: '10', label: '价格区间', children:
                 <Steps progressDot current={7} size='small' items={[
                   { title: response.data['P'] + '￥', description: 'Poor' },
                   { title: response.data['F'] + '￥', description: 'Fair' },
