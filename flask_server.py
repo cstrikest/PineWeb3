@@ -15,7 +15,10 @@ def getById(id):
     else:
         d = json.loads(r.text)
         info['name'] = d['title'] + ' - ' + d['artists_sort']
-        info['jacket_url'] = d['images'][0]['resource_url']
+        try:
+            info['jacket_url'] = d['images'][0]['resource_url']
+        except:
+            info['jactet_url'] = 'none'
         info['have'] = d['community']['have']
         info['want'] = d['community']['want']
         
@@ -54,7 +57,7 @@ def getById(id):
             info['released'] = d['released_formatted']
         except:
             info['released'] = ''
-            
+           d 
         try:
             info['sells'] = '{0}￥起{1}件在售'.format(str(round(int(d['lowest_price']))), d['num_for_sale'])
         except:
