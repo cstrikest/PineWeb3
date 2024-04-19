@@ -57,7 +57,7 @@ def getById(id):
             info['released'] = d['released_formatted']
         except:
             info['released'] = ''
-           d 
+            
         try:
             info['sells'] = '{0}￥起{1}件在售'.format(str(round(int(d['lowest_price']))), d['num_for_sale'])
         except:
