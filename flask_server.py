@@ -96,22 +96,20 @@ def getById(id):
 def getCollectionById(name):
     info={}
     info['msg'] = 'OK'
-    try:
-        r = requests.get('https://api.discogs.com/users/{0}/collection/folders/0/releases?per_page=500&token={1}'.format(name, token))
-        if not r.ok:
-            info['msg'] = 'none'
-        else:
-            d = json.loads(r.text)
-            while True:
-                for releases in d['releases']:
-                    info[releases['id']] = releases['title']
-                if 'next' in d['pagination']['urls']:
-                    r = requests.get(d['pagination']['urls']['next'])
-                    d = json.loads(r.text)
-                else:
-                    break
-    except:
-        info['msg'] = 'error'
+    r = requests.get('https://api.discogs.com/users/{0}/collection/folders/0/releases?per_page=500&token={1}'.format(name, token))
+    if not r.ok:
+        info['msg'] = 'none'
+    else:
+        d = json.loads(r.text)
+        while True:
+            for releases in d['releases']:
+                info[str(releases['id'])] = releases['basic_information']['title']
+            if 'next' in d['pagination']['urls']:
+                r = requests.get(d['pagination']['urls']['next'])
+                d = json.loads(r.text)
+            else:
+                break
+    print(info)
     return info
  
 @app.route("/")
@@ -125,6 +123,6 @@ def getAlbumInfo():
 
 @app.route('/collection', methods = ['POST'])
 def getCollection():
-    print('[{0}]\'s collection searched.'.format(request.form['id']))
-    return getCollectionById(request.form['id'])
+    print('[{0}]\'s collection searched.'.format(request.form['name']))
+    return getCollectionById(request.form['name'])
     

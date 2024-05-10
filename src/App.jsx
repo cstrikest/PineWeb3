@@ -16,7 +16,8 @@ function App() {
       }
     ],
     "URL",
-    [1, 2, 3, 4, 5]]
+    [1, 2, 3, 4, 5],
+    0] // 收藏夹歌曲数目
   )
 
 
@@ -147,7 +148,7 @@ function UAlbumData({ info }) {
 }
 
 function USearchID({ info, setInfo }) {
-  async function onSearch(value, _e, info) {
+  async function onSearch(value, _e, _info) {
     let form = new FormData()
 
     form.append('id', value.replace(/[^0-9]/ig, ""))
@@ -193,7 +194,8 @@ function USearchID({ info, setInfo }) {
             }
           ],
           response.data['jacket_url'],
-          temp
+          temp,
+          info[4]
         ])
       })
   }
@@ -203,13 +205,16 @@ function USearchID({ info, setInfo }) {
 }
 
 function USearchCollection({ info, setInfo }) {
-  async function onSearch(value, _e, info) {
+  async function onSearch(value, _e, _info) {
     let form = new FormData()
-    form.append('id', value)
+    form.append('name', value)
     message.loading('加载收藏夹中，请不要多次搜索。')
     await Axios.post('/collection', form)
       .then((response) => {
-
+        let temp = info
+        temp[4] = response.length
+        alert(response.length)
+        setInfo(info)
       })
   }
   return (
