@@ -17,7 +17,7 @@ function App() {
     ],
     "URL",
     [1, 2, 3, 4, 5],
-    0] // 收藏夹歌曲数目
+    "username to search collection"] // 收藏夹歌曲数目
   )
 
 
@@ -207,18 +207,19 @@ function USearchID({ info, setInfo }) {
 function USearchCollection({ info, setInfo }) {
   async function onSearch(value, _e, _info) {
     let form = new FormData()
+
     form.append('name', value)
     message.loading('加载收藏夹中，请不要多次搜索。')
     await Axios.post('/collection', form)
       .then((response) => {
         let temp = info
-        temp[4] = response.length
-        alert(response.length)
+        temp[4] = toString(response.data['msg'])
+        alert(response.data['msg'])
         setInfo(info)
       })
   }
   return (
-    <Search placeholder="username to search collection" onSearch={onSearch} enterButton />
+    <Search placeholder={info[4]} onSearch={onSearch} enterButton />
   )
 }
 export default App
