@@ -19,6 +19,7 @@ function App() {
     [1, 2, 3, 4, 5]]
   )
 
+
   return (
     <>
       <ConfigProvider
@@ -82,6 +83,7 @@ function App() {
                 <div style={{ margin: '3px', padding: '20px', border: '4px solid' + blue[3], height: '100%' }}>
                   <h1 style={{ color: 'black' }}>ZONE FOR WEBCAM</h1>
                   <USearchID info={info} setInfo={setInfo} />
+                  <USearchCollection info={info} setInfo={setInfo} />
                 </div>
               </Flex>
             </Content>
@@ -197,6 +199,21 @@ function USearchID({ info, setInfo }) {
   }
   return (
     <Search placeholder="paste album id copied form discogs" onSearch={onSearch} enterButton />
+  )
+}
+
+function USearchCollection({ info, setInfo }) {
+  async function onSearch(value, _e, info) {
+    let form = new FormData()
+    form.append('id', value)
+    message.loading('加载收藏夹中，请不要多次搜索。')
+    await Axios.post('/collection', form)
+      .then((response) => {
+
+      })
+  }
+  return (
+    <Search placeholder="username to search collection" onSearch={onSearch} enterButton />
   )
 }
 export default App
