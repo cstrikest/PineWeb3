@@ -84,7 +84,6 @@ def getById(id):
             info['G'] = '0'
             info['F'] = '0'
             info['P'] = '0'
-        
         try:
             for t in d['tracklist']:
                 info['pos'].append(t['position'])
@@ -94,6 +93,18 @@ def getById(id):
             info['title'] = []
     return info
 
+def getCollectionById(name):
+    info={}
+    r = requests.get('https://api.discogs.com/users/{0}/collection/folders/0/releases?per_page=500&token={1}'.format(name, token))
+    if not r.ok:
+        info['msg'] = 'none'
+    else:
+        for i in range(1, pages + 1):
+            d = json.loads(r.text)
+            page = d['pagination']['page']
+            pages = d['pagination']['pages']
+            
+    
 @app.route("/")
 def main():
     return app.send_static_file('index.html')
@@ -102,3 +113,9 @@ def main():
 def getAlbumInfo():
     print("[{0}] album searched.".format(request.form['id']))
     return getById(request.form['id'])
+
+@app.route('/collection', methods = ['POST'])
+def getCollection():
+    print('[{0}]\'s collection searched.'.format(request.form['id']))
+    return getCollectionById(request.form['id'])
+    
